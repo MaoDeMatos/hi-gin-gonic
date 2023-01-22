@@ -3,16 +3,25 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // Create the app
 var app = gin.Default()
 
 func main() {
+	// Load `.env` file
+	godotenv.Load()
+
+	/**
+	* Routes
+	 */
+
 	// Ping test
 	app.GET("/ping", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"response": "pong"})
@@ -38,8 +47,21 @@ func main() {
 	helloRoute.GET("/", greet)
 	helloRoute.GET("/:name", greet)
 
+	/**
+	* Routes end
+	 */
+
+	envPort := os.Getenv("PORT")
+	var port string
+
+	if len(envPort) > 0 {
+		port = ":" + envPort
+	} else {
+		port = ":8080"
+	}
+
 	// Listen and Server in 0.0.0.0:8080
-	app.Run(":8080")
+	app.Run(port)
 }
 
 func greet(ctx *gin.Context) {
