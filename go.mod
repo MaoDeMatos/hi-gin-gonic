@@ -1,4 +1,4 @@
-module hi-gin
+module hi-gin-gonic
 
 go 1.19
 
