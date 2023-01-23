@@ -8,13 +8,11 @@ import (
 )
 
 type Config struct {
-	Port    string
-	GinMode string
+	Port string
 }
 
 var Current = Config{
-	Port:    ":8080",
-	GinMode: gin.DebugMode,
+	Port: ":8080",
 }
 
 func Init() {
@@ -23,10 +21,10 @@ func Init() {
 		Current.Port = ":" + envPort
 	}
 
-	envGinMode := os.Getenv("GIN_MODE")
+	envGinMode := strings.ToLower(os.Getenv("GIN_MODE"))
 	if len(envGinMode) > 0 {
-		Current.GinMode = strings.ToLower(envGinMode)
+		gin.SetMode(envGinMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
 	}
-
-	gin.SetMode(Current.GinMode)
 }
