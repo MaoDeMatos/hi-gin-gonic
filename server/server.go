@@ -2,11 +2,17 @@ package server
 
 import (
 	"hi-gin-gonic/config"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Init() {
 	config.Init()
-	router := newRouter()
+
+	// Create the app
+	app := gin.Default()
+	createRoutes(app)
+
 	// Listen and Server in 0.0.0.0:8080
-	router.Run(config.Current.Port)
+	app.Run(config.Current.Port)
 }
