@@ -1,5 +1,6 @@
 # Env variables
 .env*
+!.env.example
 
 # Mac OS X files
 .DS_Store
